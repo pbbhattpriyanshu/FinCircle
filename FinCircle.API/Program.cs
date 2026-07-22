@@ -25,6 +25,8 @@ namespace FinCircle.API
             builder.Services.AddScoped<IMemberRepository, MemberRepository>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<ILoanRepository, LoanRepository>();
+            builder.Services.AddScoped<ILoanService, LoanService>();
 
             //Console.WriteLine(builder.Configuration.GetConnectionString("DefaultConnection"));
             builder.Services.AddDbContext<AppDbContext>(options =>

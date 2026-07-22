@@ -30,6 +30,7 @@ namespace FinCircle.API.Models
         public DateTime JoinedOn { get; set; } = DateTime.UtcNow;
 
         public bool IsActive { get; set; } = true;
+        public ICollection<Loan> Loans { get; set; } = new List<Loan>();
 
     }
 }
