@@ -26,7 +26,10 @@ namespace FinCircle.API.Repositories
 
                 ApprovedLoans = await _context.Loans.CountAsync(x => x.Status == "Approved"),
 
-                PendingLoans = await _context.Loans.CountAsync(x => x.Status == "Pending")
+                PendingLoans = await _context.Loans.CountAsync(x => x.Status == "Pending"),
+                TotalContributions = await _context.Contributions.CountAsync(),
+
+                TotalContributionAmount = await _context.Contributions.SumAsync(x => x.Amount),
             };
         }
     }

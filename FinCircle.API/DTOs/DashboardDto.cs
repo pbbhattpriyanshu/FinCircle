@@ -7,5 +7,8 @@
         public int TotalLoans { get; set; }
         public int ApprovedLoans { get; set; }
         public int PendingLoans { get; set; }
+        public int TotalContributions { get; set; }
+
+        public decimal TotalContributionAmount { get; set; }
     }
 }

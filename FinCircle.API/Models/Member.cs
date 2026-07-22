@@ -32,5 +32,6 @@ namespace FinCircle.API.Models
         public bool IsActive { get; set; } = true;
         public ICollection<Loan> Loans { get; set; } = new List<Loan>();
 
+        public ICollection<Contribution> Contributions { get; set; } = new List<Contribution>();
     }
 }
