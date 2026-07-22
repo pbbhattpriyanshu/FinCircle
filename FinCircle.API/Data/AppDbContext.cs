@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using FinCircle.API.Models;
 
 namespace FinCircle.API.Data
 {
@@ -9,5 +10,6 @@ namespace FinCircle.API.Data
         {
 
         }
+        public DbSet<Member> Members { get; set; }
     }
 }

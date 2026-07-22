@@ -2,6 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using FinCircle.API.Data;
 
+using FinCircle.API.Repositories;
+using FinCircle.API.Repositories.Interfaces;
+using FinCircle.API.Services;
+using FinCircle.API.Services.Interfaces;
+
 namespace FinCircle.API
 {
     public class Program
@@ -11,23 +16,25 @@ namespace FinCircle.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
-            Console.WriteLine("Connection String:");
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+            builder.Services.AddScoped<IMemberService, MemberService>();
+            builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+
             Console.WriteLine(builder.Configuration.GetConnectionString("DefaultConnection"));
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.MapOpenApi();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
             app.UseHttpsRedirection();
