@@ -1,11 +1,13 @@
 
-using Microsoft.EntityFrameworkCore;
 using FinCircle.API.Data;
-
 using FinCircle.API.Repositories;
 using FinCircle.API.Repositories.Interfaces;
 using FinCircle.API.Services;
 using FinCircle.API.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 
 namespace FinCircle.API
 {
@@ -21,12 +23,33 @@ namespace FinCircle.API
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<IMemberService, MemberService>();
             builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-            Console.WriteLine(builder.Configuration.GetConnectionString("DefaultConnection"));
+            //Console.WriteLine(builder.Configuration.GetConnectionString("DefaultConnection"));
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)
+            )
+        };
+    });
 
             var app = builder.Build();
 
@@ -39,6 +62,7 @@ namespace FinCircle.API
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

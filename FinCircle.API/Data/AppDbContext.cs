@@ -11,5 +11,6 @@ namespace FinCircle.API.Data
 
         }
         public DbSet<Member> Members { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
