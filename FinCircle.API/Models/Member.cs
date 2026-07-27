@@ -35,3 +35,4 @@ namespace FinCircle.API.Models
         public ICollection<Contribution> Contributions { get; set; } = new List<Contribution>();
     }
 }
+//Models - Actually it is the schema where we decide what kind of data will be stored.

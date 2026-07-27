@@ -15,6 +15,7 @@ namespace FinCircle.API.Services
             _repository = repository;
         }
 
+        //Creating A Member
         public async Task CreateMemberAsync(CreateMemberDto dto)
         {
             if (await _repository.ExistsByEmailAsync(dto.Email))
@@ -27,6 +28,7 @@ namespace FinCircle.API.Services
                 throw new Exception("Phone number alredy exists.");
             }
 
+            //Member Code
             var memberCode = "FC" + Guid.NewGuid().ToString("N")[..6].ToUpper();
 
             var member = new Member
@@ -43,6 +45,7 @@ namespace FinCircle.API.Services
             await _repository.AddAsync(member);
         }
 
+        //Get All Member
         public async Task<List<Member>> GetAllMemberAsync()
         {
             return await _repository.GetAllAsync();

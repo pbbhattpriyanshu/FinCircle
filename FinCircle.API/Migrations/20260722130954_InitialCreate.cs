@@ -40,3 +40,5 @@ namespace FinCircle.API.Migrations
         }
     }
 }
+// Migration is simply a record of database schema changes.
+// Migration tells the database how to change from the old structure to the new structure.
