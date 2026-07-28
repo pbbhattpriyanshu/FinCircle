@@ -1,1 +1,63 @@
-<p>navbar works!</p>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark-fc border-bottom border-dark-subtle px-3 px-lg-4 py-2.5 sticky-top">
+  <div class="container-fluid">
+    <!-- Brand Logo -->
+    <a class="navbar-brand d-flex align-items-center gap-2.5" routerLink="/dashboard">
+      <div class="brand-icon-box d-flex align-items-center justify-content-center rounded-3 bg-yellow text-dark">
+        <i class="bi bi-pie-chart-fill fs-6"></i>
+      </div>
+      <span class="brand-text fw-bold fs-5 text-white">Fin<span class="text-yellow">Circle</span></span>
+    </a>
+
+    <!-- Mobile Toggler -->
+    <button class="navbar-toggler border-0 shadow-none text-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+      <i class="bi bi-list fs-3"></i>
+    </button>
+
+    <!-- Collapsible Menu -->
+    <div class="collapse navbar-collapse" id="navbarMain">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4 gap-lg-1">
+        <li class="nav-item">
+          <a class="nav-link px-3 py-2 rounded-3 text-secondary d-flex align-items-center gap-2" routerLink="/dashboard" routerLinkActive="active">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link px-3 py-2 rounded-3 text-secondary d-flex align-items-center gap-2" routerLink="/members" routerLinkActive="active">
+            <i class="bi bi-people-fill"></i>
+            <span>Members</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link px-3 py-2 rounded-3 text-secondary d-flex align-items-center gap-2" routerLink="/loans" routerLinkActive="active">
+            <i class="bi bi-cash-stack"></i>
+            <span>Loans</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link px-3 py-2 rounded-3 text-secondary d-flex align-items-center gap-2" routerLink="/contributions" routerLinkActive="active">
+            <i class="bi bi-piggy-bank-fill"></i>
+            <span>Contributions</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- User Profile & Action Tools -->
+      <div class="d-flex align-items-center gap-3 pt-2 pt-lg-0">
+        <div class="user-pill d-flex align-items-center gap-2 px-3 py-1.5 rounded-pill bg-dark-glass border border-dark-subtle">
+          <div class="avatar-circle rounded-circle bg-yellow text-dark fw-bold fs-xs d-flex align-items-center justify-content-center">
+            FC
+          </div>
+          <span class="fs-sm fw-medium text-white me-1">FinCircle User</span>
+          <span class="badge bg-success-subtle text-success rounded-pill fs-xs px-2 py-0.5 border border-success-subtle">Active</span>
+        </div>
+
+        <button (click)="logout()" class="btn btn-outline-danger-custom btn-sm px-3 py-1.5 rounded-3 d-flex align-items-center gap-2" title="Sign Out">
+          <i class="bi bi-box-arrow-right"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+

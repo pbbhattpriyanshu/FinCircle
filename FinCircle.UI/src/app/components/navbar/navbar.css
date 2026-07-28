@@ -1,0 +1,66 @@
+.bg-dark-fc {
+  background-color: #0A0E17;
+}
+
+.brand-icon-box {
+  width: 34px;
+  height: 34px;
+  box-shadow: 0 0 12px rgba(250, 204, 21, 0.3);
+}
+
+.text-yellow {
+  color: #FACC15 !important;
+}
+
+.bg-yellow {
+  background-color: #FACC15 !important;
+}
+
+.bg-dark-glass {
+  background: rgba(20, 28, 43, 0.6);
+  backdrop-filter: blur(8px);
+}
+
+.avatar-circle {
+  width: 24px;
+  height: 24px;
+  font-size: 0.7rem;
+}
+
+.nav-link {
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #FACC15 !important;
+  background-color: rgba(250, 204, 21, 0.08);
+}
+
+.nav-link.active {
+  color: #FACC15 !important;
+  background-color: rgba(250, 204, 21, 0.14);
+  font-weight: 600;
+}
+
+.btn-outline-danger-custom {
+  color: #F87171;
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  transition: all 0.2s ease;
+}
+
+.btn-outline-danger-custom:hover {
+  color: #FFFFFF;
+  background-color: #EF4444;
+  border-color: #EF4444;
+}
+
+.fs-xs {
+  font-size: 0.75rem;
+}
+
+.fs-sm {
+  font-size: 0.875rem;
+}
