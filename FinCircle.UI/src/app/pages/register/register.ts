@@ -5,52 +5,60 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-register',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
-  templateUrl: './login.html',
-  styleUrl: './login.css',
+  templateUrl: './register.html',
+  styleUrl: './register.css',
 })
-export class Login {
+export class Register {
   private authService = inject(AuthService);
   private router = inject(Router);
 
+  fullName: string = '';
   email: string = '';
   password: string = '';
-  rememberMe: boolean = false;
   showPassword: boolean = false;
   isLoading: boolean = false;
   errorMessage: string = '';
+  successMessage: string = '';
 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
 
-  onLogin(): void {
-    if (!this.email || !this.password) {
-      this.errorMessage = 'Please fill in both email and password.';
+  onRegister(): void {
+    if (!this.fullName || !this.email || !this.password) {
+      this.errorMessage = 'Please fill in all required fields.';
+      return;
+    }
+
+    if (this.password.length < 6) {
+      this.errorMessage = 'Password must be at least 6 characters long.';
       return;
     }
 
     this.errorMessage = '';
+    this.successMessage = '';
     this.isLoading = true;
 
-    const loginData = {
+    const registerData = {
+      fullName: this.fullName,
       email: this.email,
       password: this.password,
     };
 
-    this.authService.login(loginData).subscribe({
-      next: (res: any) => {
+    this.authService.register(registerData).subscribe({
+      next: () => {
         this.isLoading = false;
-        if (res?.token) {
-          localStorage.setItem('token', res.token);
-        }
-        this.router.navigate(['/dashboard']);
+        this.successMessage = 'Account created successfully! Redirecting to login...';
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 1500);
       },
       error: (err: any) => {
         this.isLoading = false;
-        this.errorMessage = err?.error?.message || 'Invalid Email or Password';
+        this.errorMessage = err?.error?.message || 'Registration failed. Please try again.';
       },
     });
   }
