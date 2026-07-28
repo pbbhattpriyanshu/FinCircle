@@ -32,6 +32,8 @@ namespace FinCircle.API.Controllers
         public async Task<IActionResult> GetAllMembers()
         {
             var members = await _memberService.GetAllMemberAsync();
+            Console.WriteLine("Client Request: " + members);
+
             return Ok(members);
         }
 
