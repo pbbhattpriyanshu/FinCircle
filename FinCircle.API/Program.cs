@@ -56,8 +56,19 @@ namespace FinCircle.API
             )
         };
     });
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AngularPolicy", policy =>
+                {
+                    policy.WithOrigins("http://localhost:4200")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
 
             var app = builder.Build();
+
+            app.UseCors("AngularPolicy");
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
