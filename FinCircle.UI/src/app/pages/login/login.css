@@ -1,0 +1,334 @@
+/* Login Component Styling - Yellow, Black & White Finance Theme */
+
+/* Color Utility Classes */
+.text-yellow {
+  color: var(--fc-yellow) !important;
+}
+
+.bg-yellow {
+  background-color: var(--fc-yellow) !important;
+}
+
+.bg-yellow-subtle {
+  background-color: var(--fc-yellow-subtle) !important;
+}
+
+.border-yellow-subtle {
+  border-color: var(--fc-border-yellow) !important;
+}
+
+.text-gradient-yellow {
+  background: linear-gradient(135deg, #FFF 20%, #FACC15 80%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.fs-xs {
+  font-size: 0.75rem;
+}
+
+.fs-sm {
+  font-size: 0.875rem;
+}
+
+.tracking-wider {
+  letter-spacing: 0.08em;
+}
+
+.select-none {
+  user-select: none;
+}
+
+/* Wrapper Layout */
+.login-wrapper {
+  background-color: var(--fc-bg-dark);
+  color: var(--fc-text-primary);
+  font-family: var(--fc-font-family);
+}
+
+/* Hero Section (Left) */
+.hero-section {
+  background: linear-gradient(160deg, #090D16 0%, #060911 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.hero-grid-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(250, 204, 21, 0.1) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.ambient-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+}
+
+.glow-1 {
+  top: -10%;
+  left: -10%;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(250, 204, 21, 0.14) 0%, transparent 70%);
+}
+
+.glow-2 {
+  bottom: 5%;
+  right: 5%;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(234, 179, 8, 0.1) 0%, transparent 70%);
+}
+
+/* Brand Badge */
+.brand-badge {
+  background: rgba(22, 31, 48, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.brand-icon-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #FACC15 0%, #EAB308 100%);
+  box-shadow: 0 0 15px rgba(250, 204, 21, 0.4);
+}
+
+.brand-icon-wrap.sm {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+}
+
+.bg-dark-glass {
+  background: rgba(22, 31, 48, 0.5);
+  backdrop-filter: blur(8px);
+}
+
+/* Metric Card */
+.metric-card {
+  background: rgba(22, 31, 48, 0.7);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(250, 204, 21, 0.2) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(250, 204, 21, 0.4) !important;
+}
+
+.metric-icon-box {
+  width: 42px;
+  height: 42px;
+  box-shadow: 0 4px 12px rgba(250, 204, 21, 0.3);
+}
+
+/* Mini Bar Chart Animation */
+.chart-bars {
+  height: 36px;
+}
+
+.chart-bars .bar {
+  width: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.chart-bars .bar-1 { height: 40%; }
+.chart-bars .bar-2 { height: 65%; }
+.chart-bars .bar-3 { height: 50%; }
+.chart-bars .bar-4 { height: 85%; }
+.chart-bars .bar-5 { height: 100%; }
+
+.chart-bars .bar.active {
+  background: var(--fc-yellow);
+  box-shadow: 0 0 8px rgba(250, 204, 21, 0.6);
+  animation: pulseBar 2s infinite alternate;
+}
+
+@keyframes pulseBar {
+  0% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+.footer-link {
+  color: var(--fc-text-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+  color: var(--fc-yellow);
+}
+
+/* Form Section (Right) */
+.form-section {
+  background-color: #0A0E17;
+}
+
+.form-container {
+  max-width: 420px;
+}
+
+/* Form Inputs */
+.input-group-custom {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 16px;
+  z-index: 5;
+  pointer-events: none;
+  font-size: 1.1rem;
+}
+
+.form-control-custom {
+  width: 100%;
+  padding: 14px 16px 14px 48px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #FFFFFF;
+  background-color: #141C2B;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  outline: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-control-custom::placeholder {
+  color: #64748B;
+}
+
+.form-control-custom:focus {
+  background-color: #182336;
+  border-color: var(--fc-yellow);
+  box-shadow: 0 0 0 4px rgba(250, 204, 21, 0.15), 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Toggle Password Button */
+.btn-toggle-password {
+  position: absolute;
+  right: 12px;
+  background: transparent;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  z-index: 5;
+  border-radius: 6px;
+  transition: color 0.2s ease;
+}
+
+.btn-toggle-password:hover {
+  color: var(--fc-yellow) !important;
+}
+
+/* Checkbox */
+.custom-check-input {
+  width: 18px;
+  height: 18px;
+  background-color: #141C2B;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.custom-check-input:checked {
+  background-color: var(--fc-yellow);
+  border-color: var(--fc-yellow);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+}
+
+.custom-check-input:focus {
+  box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.25);
+  border-color: var(--fc-yellow);
+}
+
+/* Primary Yellow Button */
+.btn-yellow {
+  background: linear-gradient(135deg, #FACC15 0%, #EAB308 100%);
+  border: none;
+  color: #090D16 !important;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.shadow-gold {
+  box-shadow: 0 8px 24px -4px rgba(250, 204, 21, 0.35);
+}
+
+.btn-yellow:hover:not(:disabled) {
+  background: linear-gradient(135deg, #FDE047 0%, #FACC15 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -2px rgba(250, 204, 21, 0.45);
+}
+
+.btn-yellow:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(250, 204, 21, 0.3);
+}
+
+.btn-yellow:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Social Buttons */
+.btn-social {
+  background-color: #141C2B;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.2s ease;
+}
+
+.btn-social:hover {
+  background-color: #1B263B;
+  border-color: rgba(250, 204, 21, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Divider Line */
+.divider-line {
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Alert Styling */
+.alert-custom-danger {
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  padding: 12px 16px;
+}
+
+.text-danger-light {
+  color: #FCA5A5;
+}
+
+.forgot-link:hover {
+  text-decoration: underline !important;
+}
+
+.hover-underline:hover {
+  text-decoration: underline !important;
+}
+
+/* Responsiveness adjustments */
+@media (max-width: 991.98px) {
+  .form-section {
+    min-height: 100vh;
+  }
+}

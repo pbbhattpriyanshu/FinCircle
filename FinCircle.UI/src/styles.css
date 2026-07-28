@@ -1,0 +1,53 @@
+/* FinCircle Global Theme & Design Tokens */
+:root {
+  --fc-yellow: #FACC15;
+  --fc-yellow-dark: #EAB308;
+  --fc-yellow-light: #FEF08A;
+  --fc-yellow-glow: rgba(250, 204, 21, 0.25);
+  --fc-yellow-subtle: rgba(250, 204, 21, 0.08);
+
+  --fc-bg-dark: #0A0E17;
+  --fc-surface-dark: #111827;
+  --fc-card-dark: #161F30;
+  --fc-border-dark: rgba(255, 255, 255, 0.1);
+  --fc-border-yellow: rgba(250, 204, 21, 0.4);
+
+  --fc-text-primary: #FFFFFF;
+  --fc-text-secondary: #94A3B8;
+  --fc-text-dark: #0F172A;
+
+  --fc-font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --fc-radius-lg: 16px;
+  --fc-radius-md: 12px;
+  --fc-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--fc-font-family);
+  background-color: var(--fc-bg-dark);
+  color: var(--fc-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--fc-bg-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: #1E293B;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--fc-yellow);
+}
