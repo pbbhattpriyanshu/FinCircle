@@ -1,1 +1,300 @@
-<p>member works!</p>
+<div class="member-page min-vh-100 bg-dark-bg text-light">
+  <!-- Top Navigation Bar -->
+  <app-navbar></app-navbar>
+
+  <main class="container-fluid px-3 px-lg-5 py-4">
+    
+    <!-- Page Header & Action Controls -->
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4 pb-3 border-bottom border-dark-subtle">
+      <div>
+        <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-dark-glass border border-yellow-subtle text-yellow mb-2">
+          <i class="bi bi-people-fill"></i>
+          <span class="fs-xs fw-semibold text-uppercase tracking-wider">Circle Roster Management</span>
+        </div>
+        <h1 class="h2 fw-extrabold text-white mb-1">Members Directory</h1>
+        <p class="text-secondary fs-sm mb-0">View, add, edit, and manage financial circle participants</p>
+      </div>
+
+      <!-- Controls: Search & Add Button -->
+      <div class="d-flex flex-wrap align-items-center gap-2">
+        <div class="search-box position-relative">
+          <i class="bi bi-search search-icon text-secondary"></i>
+          <input
+            type="text"
+            class="form-control form-control-custom ps-5 py-2 fs-sm"
+            placeholder="Search by name, code, email..."
+            [(ngModel)]="searchTerm"
+            (input)="filterMembers()"
+          />
+        </div>
+
+        <button (click)="loadMembers()" class="btn btn-outline-gold py-2 px-3 rounded-3 d-flex align-items-center gap-2" [disabled]="isLoading" title="Refresh list">
+          <i class="bi bi-arrow-clockwise" [ngClass]="{'spin-icon': isLoading}"></i>
+        </button>
+
+        <button (click)="openCreateModal()" class="btn btn-yellow py-2 px-3 rounded-3 fw-bold d-flex align-items-center gap-2 text-dark shadow-gold">
+          <i class="bi bi-person-plus-fill fs-6"></i>
+          <span>Add New Member</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Alert Notifications -->
+    <div *ngIf="errorMessage" class="alert alert-custom-danger d-flex align-items-center justify-content-between mb-4 rounded-3" role="alert">
+      <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-exclamation-octagon-fill text-danger fs-5"></i>
+        <span class="fs-sm text-danger-light">{{ errorMessage }}</span>
+      </div>
+      <button (click)="errorMessage = ''" class="btn-close btn-close-white fs-xs" aria-label="Close"></button>
+    </div>
+
+    <div *ngIf="successMessage" class="alert alert-custom-success d-flex align-items-center justify-content-between mb-4 rounded-3" role="alert">
+      <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-check-circle-fill text-success fs-5"></i>
+        <span class="fs-sm text-success-light">{{ successMessage }}</span>
+      </div>
+      <button (click)="successMessage = ''" class="btn-close btn-close-white fs-xs" aria-label="Close"></button>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div *ngIf="isLoading" class="text-center py-5">
+      <div class="spinner-border text-yellow mb-3" style="width: 3rem; height: 3rem;" role="status">
+        <span class="visually-hidden">Loading members...</span>
+      </div>
+      <p class="text-secondary fs-sm">Fetching members from FinCircle API...</p>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!isLoading && filteredMembers.length === 0" class="text-center py-5 card bg-dark-card border-dark-subtle rounded-4 p-5">
+      <div class="empty-icon-wrap mx-auto mb-3 rounded-circle bg-dark-glass d-flex align-items-center justify-content-center">
+        <i class="bi bi-people text-secondary fs-1"></i>
+      </div>
+      <h5 class="text-white fw-bold mb-2">No Members Found</h5>
+      <p class="text-secondary fs-sm mb-4 max-w-md mx-auto">
+        {{ searchTerm ? 'No circle members matched your search query.' : 'There are currently no members registered in the system.' }}
+      </p>
+      <div>
+        <button (click)="openCreateModal()" class="btn btn-yellow px-4 py-2 rounded-3 fw-bold text-dark">
+          <i class="bi bi-person-plus-fill me-2"></i>Create First Member
+        </button>
+      </div>
+    </div>
+
+    <!-- Members Data Table -->
+    <div *ngIf="!isLoading && filteredMembers.length > 0" class="table-responsive card bg-dark-card border-dark-subtle rounded-4 shadow-lg overflow-hidden">
+      <table class="table table-dark table-hover mb-0 align-middle">
+        <thead class="thead-dark border-bottom border-dark-subtle">
+          <tr class="text-uppercase fs-xs tracking-wider text-secondary">
+            <th class="py-3 px-4">Member Code</th>
+            <th class="py-3 px-4">Member Name</th>
+            <th class="py-3 px-4">Contact Info</th>
+            <th class="py-3 px-4">Address</th>
+            <th class="py-3 px-4">Joined Date</th>
+            <th class="py-3 px-4">Status</th>
+            <th class="py-3 px-4 text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let member of filteredMembers" class="member-row">
+            <!-- Member Code -->
+            <td class="py-3 px-4">
+              <span class="badge bg-yellow-subtle text-yellow font-monospace border border-yellow-subtle px-2.5 py-1 rounded-3 fs-xs">
+                {{ member.memberCode }}
+              </span>
+            </td>
+
+            <!-- Member Name -->
+            <td class="py-3 px-4">
+              <div class="d-flex align-items-center gap-3">
+                <div class="member-avatar rounded-circle bg-yellow text-dark fw-bold d-flex align-items-center justify-content-center fs-xs">
+                  {{ member.fullName.substring(0, 2).toUpperCase() }}
+                </div>
+                <div>
+                  <div class="fw-bold text-white fs-sm">{{ member.fullName }}</div>
+                  <div class="text-secondary fs-xs">ID: #{{ member.id }}</div>
+                </div>
+              </div>
+            </td>
+
+            <!-- Contact Info -->
+            <td class="py-3 px-4">
+              <div class="fs-sm text-light mb-0.5">
+                <i class="bi bi-envelope text-secondary me-1.5"></i>{{ member.email }}
+              </div>
+              <div class="fs-xs text-secondary">
+                <i class="bi bi-telephone text-secondary me-1.5"></i>{{ member.phoneNumber }}
+              </div>
+            </td>
+
+            <!-- Address -->
+            <td class="py-3 px-4">
+              <span class="fs-sm text-secondary truncate-address" [title]="member.address">
+                {{ member.address }}
+              </span>
+            </td>
+
+            <!-- Joined Date -->
+            <td class="py-3 px-4 fs-sm text-secondary">
+              {{ member.joinedOn | date:'mediumDate' }}
+            </td>
+
+            <!-- Status -->
+            <td class="py-3 px-4">
+              <span *ngIf="member.isActive" class="badge bg-success-subtle text-success border border-success-subtle px-2.5 py-1 rounded-pill fs-xs">
+                <i class="bi bi-check-circle-fill me-1"></i>Active
+              </span>
+              <span *ngIf="!member.isActive" class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2.5 py-1 rounded-pill fs-xs">
+                Inactive
+              </span>
+            </td>
+
+            <!-- Actions -->
+            <td class="py-3 px-4 text-end">
+              <div class="d-inline-flex gap-2">
+                <button (click)="openEditModal(member)" class="btn btn-icon btn-outline-warning-custom btn-sm rounded-3" title="Edit Member">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button (click)="confirmDelete(member)" class="btn btn-icon btn-outline-danger-custom btn-sm rounded-3" title="Delete Member">
+                  <i class="bi bi-trash3"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <!-- CREATE / EDIT MEMBER MODAL OVERLAY -->
+  <div *ngIf="showModal" class="modal-backdrop-custom d-flex align-items-center justify-content-center p-3">
+    <div class="modal-card card bg-dark-card border border-dark-subtle rounded-4 shadow-gold-lg w-100 max-w-lg overflow-hidden animate-fade-in">
+      
+      <!-- Modal Header -->
+      <div class="modal-header border-bottom border-dark-subtle px-4 py-3 bg-dark-glass d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-2">
+          <div class="modal-icon-wrap rounded-3 bg-yellow text-dark d-flex align-items-center justify-content-center">
+            <i class="bi" [ngClass]="isEditing ? 'bi-pencil-square' : 'bi-person-plus-fill'"></i>
+          </div>
+          <h5 class="modal-title fw-bold text-white mb-0">
+            {{ isEditing ? 'Edit Circle Member' : 'Register New Member' }}
+          </h5>
+        </div>
+        <button (click)="closeModal()" class="btn-close btn-close-white" aria-label="Close"></button>
+      </div>
+
+      <!-- Modal Body Form -->
+      <form (ngSubmit)="saveMember()" #memberForm="ngForm" class="p-4">
+        
+        <!-- Full Name Input -->
+        <div class="mb-3">
+          <label for="fullName" class="form-label text-light fs-xs fw-semibold text-uppercase tracking-wider">
+            Full Name *
+          </label>
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            class="form-control form-control-custom"
+            placeholder="John Doe"
+            [(ngModel)]="formData.fullName"
+            required
+          />
+        </div>
+
+        <!-- Phone Number Input -->
+        <div class="mb-3">
+          <label for="phoneNumber" class="form-label text-light fs-xs fw-semibold text-uppercase tracking-wider">
+            Phone Number *
+          </label>
+          <input
+            type="text"
+            id="phoneNumber"
+            name="phoneNumber"
+            class="form-control form-control-custom"
+            placeholder="+1 555-0192"
+            [(ngModel)]="formData.phoneNumber"
+            required
+          />
+        </div>
+
+        <!-- Email Address Input -->
+        <div class="mb-3">
+          <label for="email" class="form-label text-light fs-xs fw-semibold text-uppercase tracking-wider">
+            Email Address *
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-control form-control-custom"
+            placeholder="john@example.com"
+            [(ngModel)]="formData.email"
+            required
+          />
+        </div>
+
+        <!-- Address Input -->
+        <div class="mb-4">
+          <label for="address" class="form-label text-light fs-xs fw-semibold text-uppercase tracking-wider">
+            Residential Address *
+          </label>
+          <textarea
+            id="address"
+            name="address"
+            rows="3"
+            class="form-control form-control-custom"
+            placeholder="123 Financial Way, Suite 400..."
+            [(ngModel)]="formData.address"
+            required
+          ></textarea>
+        </div>
+
+        <!-- Modal Footer Actions -->
+        <div class="d-flex align-items-center justify-content-end gap-2 pt-3 border-top border-dark-subtle">
+          <button type="button" (click)="closeModal()" class="btn btn-outline-secondary px-4 py-2 rounded-3 text-secondary border-secondary-subtle">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-yellow px-4 py-2 rounded-3 fw-bold text-dark shadow-gold" [disabled]="isSaving">
+            <span *ngIf="!isSaving">{{ isEditing ? 'Save Changes' : 'Create Member' }}</span>
+            <span *ngIf="isSaving" class="d-flex align-items-center gap-2">
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              Saving...
+            </span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- DELETE CONFIRMATION MODAL OVERLAY -->
+  <div *ngIf="showDeleteConfirmModal" class="modal-backdrop-custom d-flex align-items-center justify-content-center p-3">
+    <div class="modal-card card bg-dark-card border border-dark-subtle rounded-4 shadow-lg w-100 max-w-md overflow-hidden animate-fade-in">
+      <div class="p-4 text-center">
+        <div class="delete-icon-wrap mx-auto mb-3 rounded-circle bg-danger-subtle text-danger d-flex align-items-center justify-content-center">
+          <i class="bi bi-exclamation-triangle-fill fs-2"></i>
+        </div>
+        <h5 class="fw-bold text-white mb-2">Delete Member?</h5>
+        <p class="text-secondary fs-sm mb-4">
+          Are you sure you want to delete <strong class="text-white">{{ deletingMember?.fullName }}</strong> ({{ deletingMember?.memberCode }})? This action cannot be undone.
+        </p>
+
+        <div class="d-flex align-items-center justify-content-center gap-3">
+          <button (click)="cancelDelete()" class="btn btn-outline-secondary px-4 py-2 rounded-3 text-secondary border-secondary-subtle">
+            Cancel
+          </button>
+          <button (click)="deleteMember()" class="btn btn-danger px-4 py-2 rounded-3 fw-bold" [disabled]="isDeleting">
+            <span *ngIf="!isDeleting">Yes, Delete</span>
+            <span *ngIf="isDeleting" class="d-flex align-items-center gap-2">
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              Deleting...
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
