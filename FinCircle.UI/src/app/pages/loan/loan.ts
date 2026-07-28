@@ -9,10 +9,11 @@ import { MemberService, Member as MemberModel } from '../../services/member';
 @Component({
   selector: 'app-loan',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, Navbar],
+  imports: [CommonModule, FormsModule, Navbar],
   templateUrl: './loan.html',
   styleUrl: './loan.css',
 })
+
 export class Loan implements OnInit {
   private loanService = inject(LoanService);
   private memberService = inject(MemberService);
