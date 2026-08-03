@@ -21,11 +21,6 @@ export const routes: Routes = [
     component: Register
   },
   {
-    path: 'register',
-    component: Register
-  },
-
-  {
     path: 'dashboard',
     component: Dashboard
   },

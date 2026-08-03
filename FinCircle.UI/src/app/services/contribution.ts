@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../enviroments/enviroment';
 
 export interface Contribution {
   id: number;
@@ -30,7 +31,7 @@ export interface CreateContributionDto {
 })
 export class ContributionService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://localhost:7070/api/contribution';
+  private apiUrl = environment.apiUrl + '/contribution';
 
   private getAuthHeaders() {
     const token = localStorage.getItem('token') || '';
