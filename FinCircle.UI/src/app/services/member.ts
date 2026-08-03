@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../enviroments/enviroment';
 
 export interface Member {
   id: number;
@@ -32,7 +33,7 @@ export interface UpdateMemberDto {
 })
 export class MemberService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://localhost:7070/api/member';
+  private apiUrl = environment.apiUrl + '/member';
 
   private getAuthHeaders() {
     const token = localStorage.getItem('token') || '';

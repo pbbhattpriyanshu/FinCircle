@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../enviroments/enviroment';
 
 export interface Loan {
   id: number;
@@ -27,7 +28,7 @@ export interface CreateLoanDto {
 })
 export class LoanService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://localhost:7070/api/loan';
+  private apiUrl = environment.apiUrl + '/loan';
 
   private getAuthHeaders() {
     const token = localStorage.getItem('token') || '';
