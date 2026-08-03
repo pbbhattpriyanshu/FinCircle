@@ -5,6 +5,7 @@ import { Dashboard } from './pages/dashboard/dashboard';
 import { Member } from './pages/member/member';
 import { Loan } from './pages/loan/loan';
 import { Contribution } from './pages/contribution/contribution';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
   {
@@ -22,19 +23,23 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard',
-    component: Dashboard
+    component: Dashboard,
+    canActivate: [authGuard]
   },
   {
     path: 'members',
-    component: Member
+    component: Member,
+    canActivate: [authGuard]
   },
   {
     path: 'loans',
-    component: Loan
+    component: Loan,
+    canActivate: [authGuard]
   },
   {
     path: 'contributions',
-    component: Contribution
+    component: Contribution,
+    canActivate: [authGuard]
   },
   {
     path: '**',
