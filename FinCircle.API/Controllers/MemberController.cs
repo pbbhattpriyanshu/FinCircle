@@ -17,6 +17,7 @@ namespace FinCircle.API.Controllers
             _memberService = memberService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateMember(CreateMemberDto dto)
         {
@@ -37,6 +38,7 @@ namespace FinCircle.API.Controllers
             return Ok(members);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetMemberById(int id)
         {
@@ -52,6 +54,7 @@ namespace FinCircle.API.Controllers
             return Ok(member);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateMember(int id, UpdateMemberDto dto)
         {
@@ -63,6 +66,7 @@ namespace FinCircle.API.Controllers
             return Ok(new { message = "Member updated successfully." });
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMember(int id)
         {

@@ -47,6 +47,7 @@ namespace FinCircle.API.Controllers
             return Ok(loan);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("{id}/approve")]
         public async Task<IActionResult> ApproveLoan(int id)
         {
@@ -61,6 +62,7 @@ namespace FinCircle.API.Controllers
             });
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("{id}/reject")]
         public async Task<IActionResult> RejectLoan(int id)
         {

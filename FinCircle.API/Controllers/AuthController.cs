@@ -1,5 +1,6 @@
 ﻿using FinCircle.API.DTOs;
 using FinCircle.API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinCircle.API.Controllers
@@ -31,9 +32,31 @@ namespace FinCircle.API.Controllers
         {
             var token = await _authService.LoginAsync(dto);
 
+            Response.Cookies.Append("fincircleToken", token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,          // Use false only for local HTTP development
+                SameSite = SameSiteMode.None,
+                Expires = DateTime.UtcNow.AddHours(2),
+                IsEssential = true
+            });
+
+
             return Ok(new
             {
-                token
+                message = "Login successful."
+            });
+        }
+
+        [Authorize]
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("fincircleToken");
+
+            return Ok(new
+            {
+                message = "Logout successful."
             });
         }
     }

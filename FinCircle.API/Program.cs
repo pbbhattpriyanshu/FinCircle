@@ -4,6 +4,7 @@ using FinCircle.API.Repositories;
 using FinCircle.API.Repositories.Interfaces;
 using FinCircle.API.Services;
 using FinCircle.API.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -38,8 +39,8 @@ namespace FinCircle.API
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            builder.Services.AddAuthentication("Bearer")
-    .AddJwtBearer("Bearer", options =>
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
@@ -50,10 +51,18 @@ namespace FinCircle.API
 
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
-
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)
             )
+        };
+
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                context.Token = context.Request.Cookies["fincircleToken"];
+                return Task.CompletedTask;
+            }
         };
     });
             builder.Services.AddCors(options =>
@@ -62,7 +71,8 @@ namespace FinCircle.API
                 {
                     policy.WithOrigins("http://localhost:4200")
                           .AllowAnyHeader()
-                          .AllowAnyMethod();
+                          .AllowAnyMethod()
+                          .AllowCredentials();
                 });
             });
 
