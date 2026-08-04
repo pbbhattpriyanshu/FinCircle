@@ -19,20 +19,17 @@ namespace FinCircle.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto dto)
         {
-            await _authService.RegisterAsync(dto);
+            var response = await _authService.RegisterAsync(dto);
 
-            return Ok(new
-            {
-                message = "User registered successfully."
-            });
+            return Ok(response);
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto dto)
         {
-            var token = await _authService.LoginAsync(dto);
+            var result = await _authService.LoginAsync(dto);
 
-            Response.Cookies.Append("fincircleToken", token, new CookieOptions
+            Response.Cookies.Append("fincircleToken", result.token, new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,          // Use false only for local HTTP development
@@ -42,10 +39,7 @@ namespace FinCircle.API.Controllers
             });
 
 
-            return Ok(new
-            {
-                message = "Login successful."
-            });
+            return Ok(result.Response);
         }
 
         [Authorize]

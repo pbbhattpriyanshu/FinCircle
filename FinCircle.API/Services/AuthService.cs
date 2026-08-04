@@ -22,7 +22,7 @@ namespace FinCircle.API.Services
             _configuration = configuration;
         }
 
-        public async Task<string> LoginAsync(LoginDto dto)
+        public async Task<(string token, AuthResponseDto Response)> LoginAsync(LoginDto dto)
         {
             var user = await _userRepository.GetByEmailAsync(dto.Email);
 
@@ -36,10 +36,11 @@ namespace FinCircle.API.Services
 
             var claims = new[]
             {
-        new Claim(ClaimTypes.Name, user.FullName),
-        new Claim(ClaimTypes.Email, user.Email),
-        new Claim(ClaimTypes.Role, user.Role)
-    };
+                new Claim(ClaimTypes.Name, user.FullName),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Role),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            };
 
             var key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!)
@@ -50,15 +51,31 @@ namespace FinCircle.API.Services
             var token = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
-                claims: claims,
                 expires: DateTime.UtcNow.AddHours(2),
+                claims: claims,
                 signingCredentials: creds
             );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
+
+
+            return (
+                jwtToken,
+                new AuthResponseDto
+                {
+                    Message = "Login successful.",
+                    User = new UserDto
+                    {
+                        Id = user.Id,
+                        FullName = user.FullName,
+                        Email = user.Email,
+                        Role = user.Role
+                    }
+                }
+            );
         }
 
-        public async Task RegisterAsync(RegisterDto dto)
+        public async Task<AuthResponseDto> RegisterAsync(RegisterDto dto)
         {
             if (await _userRepository.ExistsByEmailAsync(dto.Email))
             {
@@ -74,6 +91,18 @@ namespace FinCircle.API.Services
             };
 
             await _userRepository.AddAsync(user);
+
+            return new AuthResponseDto
+            {
+                Message = "Registration successful.",
+                User = new UserDto
+                {
+                    Id = user.Id,
+                    FullName = user.FullName,
+                    Email = user.Email,
+                    Role = user.Role
+                }
+            };
         }
     }
 }
