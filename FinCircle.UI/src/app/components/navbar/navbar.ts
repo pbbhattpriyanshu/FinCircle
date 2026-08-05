@@ -12,7 +12,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 export class Navbar {
   private router = inject(Router);
 
-  logout(): void {
+  logout() {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
   }
